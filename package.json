@@ -1,0 +1,17 @@
+{
+  "name": "opencode-deepseek-pricing",
+  "version": "0.1.0",
+  "description": "OpenCode TUI plugin showing DeepSeek API peak/off-peak pricing hours.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test deepseek-pricing-status.test.mjs"
+  },
+  "dependencies": {
+    "@opentui/solid": "0.5.4",
+    "solid-js": "1.9.12"
+  }
+}
