@@ -16,20 +16,25 @@ function nextTransitionAt(date) {
   return new Date(dayStart + (nextMinute ?? 24 * 60 + 60) * 60_000)
 }
 
+export function systemTimeZone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"
+}
+
 function localTime(date, timeZone) {
-  return new Intl.DateTimeFormat("pl-PL", {
+  return new Intl.DateTimeFormat("en-GB", {
     timeZone,
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
+    timeZoneName: "short",
   }).format(date)
 }
 
-export function formatStatus(date, timeZone = "Europe/Warsaw") {
+export function formatStatus(date, timeZone = systemTimeZone()) {
   const state = isPeakAt(date) ? "PEAK" : "OFF-PEAK"
   const local = localTime(date, timeZone)
   const next = localTime(nextTransitionAt(date), timeZone)
-  return `DS ${state} | PL ${local} | next ${next}`
+  return `DS ${state} | LOCAL ${local} | next ${next}`
 }
 
 export function installClock(onTick, intervalMs = 30_000) {

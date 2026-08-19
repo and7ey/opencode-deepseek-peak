@@ -5,7 +5,7 @@ A small [OpenCode](https://opencode.ai) TUI plugin that shows whether the curren
 Example:
 
 ```text
-DS PEAK | PL 10:40 | next 12:00
+DS PEAK | LOCAL 10:40 CEST | next 12:00 CEST
 ```
 
 The schedule is calculated locally from UTC. No API request or credentials are needed.
@@ -19,7 +19,7 @@ According to the [official DeepSeek API pricing page](https://api-docs.deepseek.
 
 The intervals are half-open: `01:00` is peak, `04:00` is off-peak, `06:00` is peak, and `10:00` is off-peak.
 
-The displayed clock uses `Europe/Warsaw`, including automatic CET/CEST changes.
+The displayed clock uses the computer's system timezone, including automatic daylight-saving changes. The timezone abbreviation is shown after the local time (for example, `CET`, `CEST`, or `PST`).
 
 ## Install
 

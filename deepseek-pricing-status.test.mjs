@@ -16,6 +16,6 @@ test("DeepSeek peak windows use inclusive start and exclusive end", () => {
 })
 
 test("status contains state, Warsaw local time, and next transition", () => {
-  assert.match(formatStatus(utc(1, 0)), /^DS PEAK \| PL [0-9]{2}:[0-9]{2} \| next [0-9]{2}:[0-9]{2}$/)
-  assert.match(formatStatus(utc(4, 0)), /^DS OFF-PEAK \| PL [0-9]{2}:[0-9]{2} \| next [0-9]{2}:[0-9]{2}$/)
+  assert.equal(formatStatus(utc(1, 0), "Europe/Warsaw"), "DS PEAK | LOCAL 02:00 CET | next 05:00 CET")
+  assert.equal(formatStatus(utc(4, 0), "Europe/Warsaw"), "DS OFF-PEAK | LOCAL 05:00 CET | next 07:00 CET")
 })
