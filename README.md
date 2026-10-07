@@ -1,12 +1,13 @@
-# OpenCode DeepSeek Pricing Status
+# opencode-deepseek-peak
 
-A small [OpenCode](https://opencode.ai) TUI plugin that shows whether the current DeepSeek API time is **PEAK** or **OFF-PEAK**.
-
-Example:
+An [OpenCode 2](https://opencode.ai/v2) TUI plugin that shows whether the current DeepSeek API time is
+**PEAK** or **OFF-PEAK**, next to the prompt. During peak it renders in red.
 
 ```text
 DS PEAK | LOCAL 10:40 CEST | next 12:00 CEST
 ```
+
+`PEAK` is shown in the theme's error colour; `OFF-PEAK` is muted.
 
 The schedule is calculated locally from UTC. No API request or credentials are needed.
 
@@ -23,39 +24,68 @@ The displayed clock uses the computer's system timezone, including automatic day
 
 ## Install
 
-Clone the repository and install its runtime dependencies:
-
-```bash
-git clone https://github.com/kolodziejm/opencode-deepseek-pricing.git
-cd opencode-deepseek-pricing
-npm install
-```
-
-Then add the plugin to the **TUI configuration**, not `opencode.json`. OpenCode 1.18.18 loads TUI plugins from `tui.json`.
-
-For a profile-specific setup, edit the profile's `tui.json`:
+Add the plugin to your global **CLI** config (`~/.config/opencode/cli.json`), not `opencode.json`:
 
 ```json
 {
-  "$schema": "https://opencode.ai/tui.json",
-  "plugin": [
-    "/absolute/path/to/opencode-deepseek-pricing/deepseek-pricing-tui.mjs"
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "plugins": ["@and7ey/opencode-deepseek-peak"]
+}
+```
+
+OpenCode installs npm plugins with Bun on startup. Restart OpenCode after changing `cli.json`.
+
+### From a local checkout
+
+```bash
+git clone https://github.com/and7ey/opencode-deepseek-peak.git
+cd opencode-deepseek-peak
+npm install
+```
+
+```json
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "plugins": ["/absolute/path/to/opencode-deepseek-peak"]
+}
+```
+
+## Options
+
+```json
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "plugins": [
+    {
+      "package": "@and7ey/opencode-deepseek-peak",
+      "options": { "slot": "prompt.footer.status" }
+    }
   ]
 }
 ```
 
-Restart OpenCode after changing the configuration.
+| Option | Default                 | Meaning                                      |
+| ------ | ----------------------- | -------------------------------------------- |
+| `slot` | `prompt.footer.status`  | V2 prompt slot to append the banner to.      |
+
+`prompt.footer.status` is the status area of the prompt footer. Other V2 slots you can try:
+`prompt.footer`, `prompt.footer.file`, `session.composer.top`.
 
 ## Development
-
-Run the deterministic boundary tests:
 
 ```bash
 npm test
 ```
 
-The plugin uses the OpenCode 1.18.18 TUI plugin API and registers a component in the `app_bottom` slot. It refreshes the displayed time every 30 seconds and cleans up the timer when the plugin is disposed.
+The pure logic in `deepseek-peak-status.mjs` (peak windows, local-time formatting, next transition,
+clock) is covered by `deepseek-peak-status.test.mjs` using `node --test`.
+`opencode-deepseek-peak-tui.mjs` is the V2 CLI plugin entrypoint and is only exercised inside OpenCode.
+
+## Credits
+
+A port of [kolodziejm/opencode-deepseek-pricing](https://github.com/kolodziejm/opencode-deepseek-pricing)
+to the OpenCode 2 plugin API. MIT.
 
 ## License
 
-MIT
+[MIT](./LICENSE)

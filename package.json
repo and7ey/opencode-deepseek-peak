@@ -1,17 +1,65 @@
 {
-  "name": "opencode-deepseek-pricing",
-  "version": "0.1.0",
-  "description": "OpenCode TUI plugin showing DeepSeek API peak/off-peak pricing hours.",
+  "name": "@and7ey/opencode-deepseek-peak",
+  "version": "1.0.0",
+  "description": "OpenCode 2 TUI plugin showing DeepSeek API peak/off-peak pricing hours.",
   "type": "module",
   "license": "MIT",
+  "main": "./opencode-deepseek-peak.mjs",
+  "exports": {
+    ".": "./opencode-deepseek-peak.mjs",
+    "./tui": "./opencode-deepseek-peak-tui.mjs",
+    "./status": "./deepseek-peak-status.mjs"
+  },
+  "files": [
+    "opencode-deepseek-peak.mjs",
+    "opencode-deepseek-peak-tui.mjs",
+    "deepseek-peak-status.mjs",
+    "cli.example.json",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=18"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "test": "node --test deepseek-pricing-status.test.mjs"
+    "test": "node --test deepseek-peak-status.test.mjs"
   },
   "dependencies": {
-    "@opentui/solid": "0.5.4",
-    "solid-js": "1.9.12"
-  }
+    "@opencode/plugin": "^2.0.24"
+  },
+  "peerDependencies": {
+    "@opentui/solid": ">=0.5.14",
+    "solid-js": ">=1.9.0"
+  },
+  "peerDependenciesMeta": {
+    "@opentui/solid": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "opencode-tui",
+    "plugin",
+    "tui",
+    "deepseek",
+    "pricing",
+    "peak",
+    "off-peak"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/and7ey/opencode-deepseek-peak.git"
+  },
+  "author": "and7ey",
+  "bugs": {
+    "url": "https://github.com/and7ey/opencode-deepseek-peak/issues"
+  },
+  "homepage": "https://github.com/and7ey/opencode-deepseek-peak#readme"
 }

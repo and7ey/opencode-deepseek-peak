@@ -1,6 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
-import { formatStatus, isPeakAt } from "./deepseek-pricing-status.mjs"
+import { formatStatus, isPeakAt } from "./deepseek-peak-status.mjs"
 
 const utc = (hour, minute = 0) => new Date(Date.UTC(2026, 0, 15, hour, minute))
 
