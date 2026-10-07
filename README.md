@@ -3,6 +3,9 @@
 An [OpenCode 2](https://opencode.ai/v2) TUI plugin that shows whether the current DeepSeek API time is
 **PEAK** or **OFF-PEAK**, next to the prompt. During peak it renders in red.
 
+The banner appears **only while the selected provider is the native `deepseek` provider**; switch to
+another provider (including `opencode-go/deepseek-*` or `openrouter/deepseek/*`) and it disappears.
+
 ```text
 DS PEAK | LOCAL 10:40 CEST | next 12:00 CEST
 ```

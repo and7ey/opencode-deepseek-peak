@@ -8,6 +8,21 @@ export function isPeakAt(date) {
   return PEAK_WINDOWS_UTC.some(([start, end]) => minute >= start && minute < end)
 }
 
+export const DEEPSEEK_PROVIDER_ID = "deepseek"
+
+/**
+ * True when a provider id (or a `provider/model` reference) is the native
+ * DeepSeek provider. The banner is only shown while DeepSeek pricing applies,
+ * so `opencode-go/deepseek-*`, `openrouter/deepseek/*` and the like are not
+ * DeepSeek.
+ */
+export function isDeepSeekProvider(reference) {
+  if (typeof reference !== "string") return false
+  const slash = reference.indexOf("/")
+  const id = slash === -1 ? reference : reference.slice(0, slash)
+  return id === DEEPSEEK_PROVIDER_ID
+}
+
 function nextTransitionAt(date) {
   const dayStart = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
   const currentMinute = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60
