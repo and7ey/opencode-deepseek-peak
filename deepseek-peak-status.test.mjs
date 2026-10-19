@@ -29,3 +29,20 @@ test("isDeepSeekProvider matches only the native DeepSeek provider", () => {
   assert.equal(isDeepSeekProvider("deepseek-ai"), false)
   assert.equal(isDeepSeekProvider(undefined), false)
 })
+
+test("isPeakAt is off-peak all weekend", () => {
+  // 2026-01-16 Fri, 17 Sat, 18 Sun, 19 Mon
+  const at = (day, hour) => new Date(Date.UTC(2026, 0, day, hour))
+  assert.equal(isPeakAt(at(16, 2)), true)
+  assert.equal(isPeakAt(at(16, 8)), true)
+  assert.equal(isPeakAt(at(17, 2)), false)
+  assert.equal(isPeakAt(at(17, 8)), false)
+  assert.equal(isPeakAt(at(18, 2)), false)
+  assert.equal(isPeakAt(at(18, 8)), false)
+  assert.equal(isPeakAt(at(19, 2)), true)
+})
+
+test("formatStatus skips the weekend for the next transition", () => {
+  const saturday = new Date(Date.UTC(2026, 0, 17, 2, 0))
+  assert.equal(formatStatus(saturday, "Europe/Warsaw"), "DS OFF-PEAK | LOCAL 03:00 CET | next 02:00 CET")
+})

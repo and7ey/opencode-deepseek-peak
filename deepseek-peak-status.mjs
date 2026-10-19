@@ -3,7 +3,14 @@ const PEAK_WINDOWS_UTC = [
   [360, 600], // 06:00–10:00 UTC
 ]
 
+/** DeepSeek peak runs Monday–Friday; weekends are entirely off-peak. */
+function isWeekend(date) {
+  const day = date.getUTCDay()
+  return day === 0 || day === 6
+}
+
 export function isPeakAt(date) {
+  if (isWeekend(date)) return false
   const minute = date.getUTCHours() * 60 + date.getUTCMinutes()
   return PEAK_WINDOWS_UTC.some(([start, end]) => minute >= start && minute < end)
 }
@@ -24,11 +31,15 @@ export function isDeepSeekProvider(reference) {
 }
 
 function nextTransitionAt(date) {
-  const dayStart = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-  const currentMinute = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60
   const transitionMinutes = [60, 240, 360, 600]
-  const nextMinute = transitionMinutes.find((minute) => minute > currentMinute)
-  return new Date(dayStart + (nextMinute ?? 24 * 60 + 60) * 60_000)
+  const currentMinute = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60
+  for (let offset = 0; offset < 8; offset++) {
+    const dayStart = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + offset)
+    if (isWeekend(new Date(dayStart))) continue
+    const minutes = offset === 0 ? transitionMinutes.filter((minute) => minute > currentMinute) : transitionMinutes
+    if (minutes.length > 0) return new Date(dayStart + minutes[0] * 60_000)
+  }
+  return new Date(date.getTime() + 24 * 60 * 60_000)
 }
 
 export function systemTimeZone() {
